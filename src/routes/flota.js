@@ -2,9 +2,11 @@
 const express = require('express')
 const router = express.Router()
 
+// MIDDLEWARE
+const flotaMdl = require('../middlewares/flota')
+
 // CONTROLADOR
 const flotaCtrl = require('../controllers/flota')
-
 
 // RUTAS
 // prefijo /flota
@@ -18,7 +20,8 @@ router.get('/', flotaCtrl.getFlota)
 router.get('/:bus_id', flotaCtrl.getBusById)
 
 // Ruta para añadir un bus a la flota
-router.post('/', flotaCtrl.addBus)
+// body
+router.post('/', [flotaMdl.limpiarDatos], flotaCtrl.addBus)
 
 // Ruta para actualizar un bus
 router.put('/:bus_id', flotaCtrl.updateBus)
