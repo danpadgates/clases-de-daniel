@@ -1,13 +1,14 @@
 // ARCHIVO PRINCIPAL DEL BACKEND
 
 const app = require('./app');
+const PORT = 4444;
 
-// CONECCIÓN A LA BASE DE DATOS
-
+// CONEXIÓN A LA BASE DE DATOS
+// AÚN NO LO UTILIZAMOS
 // LEVANTANDO EL SERVIDOR
 
-app.listen(4444, ()=>{
-    console.log('Hola mundo')
+app.listen(PORT, ()=>{
+    console.log(`Servidor levantado en el puerto ${PORT}`)
 })
 
 /*
