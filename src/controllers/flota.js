@@ -1,24 +1,13 @@
-function getFlota(req, res) {
-    // consulta a la base datos
-    // SELECT * FROM flota
+const db = require('../database');
 
-    // res.send('Datos de la flota')
-
-    // ENVIANDO RESPUESTA EN 
-    // APARTE DE ENVIAR EL JSON TAMBIÉN PODEMOS ENVIAR 
-    // EL CÓDIGO HTTP, EL RESPONSE - CODE
-
+async function getFlota(req, res) {
     try {
-        // LÓGICA QUE PUEDE PRODUCIR ERROR
-        // throw new Error('Simulando error')
+        const resultado = await db.
+            query('SELECT * FROM flota_vista');
 
         return res.status(200).json({
-            ok: true,
             message: 'Petición correcta',
-            flota: [
-                { placa: 'abc123', color: 'negro' },
-                { placa: 'def456', color: 'azul' }
-            ]
+            resultado
         });
     } catch (e) {
         return res.status(500).json({
@@ -26,15 +15,9 @@ function getFlota(req, res) {
             message: 'Error en la base de datos'
         })
     }
-
-
 }
 
-function getBusById(req, res) {
-    // consulta a la base de datos
-    // SELECT * FROM flota WHERE id = ?
-
-    // Capturar los datos que vengan por parámetro
+async function getBusById(req, res) {
     let bus_id = req.params.bus_id
 
     // console.log('parametros', req.params);
@@ -59,37 +42,24 @@ function getBusById(req, res) {
 
 }
 
-function addBus(req, res) {
-    // consulta a la base de datos
-    // INSERT INTO flota () asdfñasdf
-    // pool.query('INSERT INTO float(placa, color, km) VALUES ('+req.body.placa+', ' )
-    // console.log('body', req.body);
-
-    /*
-        DATOS QUE ESPERA EL SERVIDOR
-
-        - id
-        - color
-        - placa
-        - km
-        - asientos
-    */
-
-    let bus = {
-        id: req.body.id,
-        color: req.body.color,
-        placa: req.body.placa,
-        km: req.body.km,
-        asientos: req.body.asientos
-    }
-
-    // res.send('Bus añadido a la flota')
-    // con la variable bus ya podemos guardarlo en la base de datos
+async function addBus(req, res) {
     try {
+        const query = 'INSERT INTO bus (placa, tipo_viaje, ' +
+            'cantidad_asientos, numero_tripulacion, ' +
+            'ruta_id, provincia_id) VALUES (?, ?, ?, ?, ?, ?)';
+
+        const resultado = await db.query(query, [
+            req.body.placa,
+            req.body.tipo_viaje,
+            req.body.cantidad_asientos,
+            req.body.numero_tripulacion,
+            req.body.ruta_id,
+            req.body.provincia_id
+        ]);
+
         return res.status(200).json({
-            ok: true,
             message: 'Bus añadido',
-            id_insertado: bus.id
+            resultado
         })
     } catch (e) {
         return res.status(500).json({
@@ -100,41 +70,25 @@ function addBus(req, res) {
 
 }
 
-function updateBus(req, res) {
-    // consulta a la base de datos
-    // UPDATE flota WHERE balbalba
-
+async function updateBus(req, res) {
     /*
-
-    UPDATE flota SET placa = ?, color = ?
-        WHERE id = ?
-
+        cantidad_asientos
+        numero_tripulacion
+        placa
     */
-
-
-
-    // pool.query(consulta)
-
-    // console.log('bus parámetro', req.params.bus_id);
-    // console.log('body', req.body);
-
-    // console.log('consulta ', consulta);
-
-    let bus_update = {
-        color: req.body.color,
-        km: req.body.km
-    }
-
-    let bus_id = req.params.bus_id;
-
-    var consulta = `UPDATE flota SET color = ${bus_update.color}, km = ${bus_update.km} ` +
-        `WHERE id = ${bus_id}`
-
-    // res.send('Bus actualizado')
     try {
+        const query = 'UPDATE bus SET cantidad_asientos = ?, ' 
+            +'numero_tripulacion = ? WHERE placa = ?';
+
+        const resultado = await db.query(query, [
+            req.body.cantidad_asientos,
+            req.body.numero_tripulacion,
+            req.params.placa
+        ])
+
         return res.status(200).json({
-            ok: true,
-            message: 'Bus actualizado'
+            message: 'Bus actualizado',
+            resultado
         })
     } catch (e) {
         return res.status(500).json({
@@ -145,25 +99,17 @@ function updateBus(req, res) {
 
 }
 
-function deleteBus(req, res) {
-    // consulta a la base datos
-    // DELETE FROM flota WHERE lskdhfa
+async function deleteBus(req, res) {
 
-    let bus_id = req.params.bus_id
-
-    let consulta = `DELETE FROM flota WHERE id = ${bus_id}`
-
-    // let consulta = `DELETE FROM flota WHERE id  `+bus_id
-
-    // console.log('consulta: ', consulta)
-
-    res.send('Bus eliminado')
-
-    // TAREITA RESPONDER EN JSON
     try {
+        const query = 'DELETE FROM bus WHERE placa = ?';
+
+        const resultado = await db.query(query, 
+            req.params.placa)
+
         return res.status(200).json({
-            ok: true,
-            message: 'Bus eliminado'
+            message: 'Bus eliminado',
+            resultado
         })
     } catch (e) {
         return res.status(500).json({

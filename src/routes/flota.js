@@ -24,10 +24,10 @@ router.get('/:bus_id', flotaCtrl.getBusById)
 router.post('/', [flotaMdl.limpiarDatos], flotaCtrl.addBus)
 
 // Ruta para actualizar un bus
-router.put('/:bus_id', flotaCtrl.updateBus)
+router.put('/:placa', flotaCtrl.updateBus)
 
 // Ruta para eliminar un bus
-router.delete('/:bus_id', flotaCtrl.deleteBus)
+router.delete('/:placa', flotaCtrl.deleteBus)
 
 // PARA EXPORTARLO
 module.exports = router

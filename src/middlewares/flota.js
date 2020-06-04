@@ -1,56 +1,54 @@
 function limpiarDatos(req, res, next){
-    // LIMPIEZA DE DATOS
-
     /*
         DATOS QUE ESPERA EL SERVIDOR
 
-        - id
-        - color
-        - placa
-        - km
-        - asientos
+        placa
+        tipo_viaje
+        cantidad_asientos 
+        numero_tripulacion
+        ruta_id
+        provincia_id
     */
-
-    // si el dato "id" no ha sido enviado
-    if(!req.body.id){
-        return res.status(400).json({
-            ok: false,
-            message: 'Debe proporcionar el id'
-        })
-    }
-
-    if(!req.body.color){
-        return res.status(400).json({
-            ok: false,
-            message: 'Debe proporcionar el color'
-        })
-    }
 
     if(!req.body.placa){
         return res.status(400).json({
             ok: false,
-            message: 'Debe proporcionar la placa'
+            message: 'Debe proporcionar el placa'
         })
     }
 
-    if(!req.body.km){
+    if(!req.body.tipo_viaje){
         return res.status(400).json({
             ok: false,
-            message: 'Debe proporcionar el km'
+            message: 'Debe proporcionar el tipo_viaje'
         })
     }
 
-    if(!req.body.asientos){
+    if(!req.body.cantidad_asientos){
         return res.status(400).json({
             ok: false,
-            message: 'Debe proporcionar los asientos'
+            message: 'Debe proporcionar la cantidad_asientos'
         })
     }
 
-    if(req.body.placa.length != 6){
+    if(!req.body.numero_tripulacion){
         return res.status(400).json({
             ok: false,
-            message: 'La placa debe tener 6 letras'
+            message: 'Debe proporcionar el numero_tripulacion'
+        })
+    }
+
+    if(!req.body.ruta_id){
+        return res.status(400).json({
+            ok: false,
+            message: 'Debe proporcionar los ruta_id'
+        })
+    }
+
+    if(!req.body.provincia_id){
+        return res.status(400).json({
+            ok: false,
+            message: 'Debe proporcionar provincia_id'
         })
     }
 
